@@ -1,10 +1,13 @@
 import json
+import logging
 from datetime import datetime
 
 import aiohttp
 import requests
 
 import config
+
+logger = logging.getLogger(__name__)
 
 
 class Event():
@@ -32,6 +35,7 @@ class Event():
         self.event_id = r.json()['id']
 
     async def create_with_api_async(self):
+        logger.debug('start create event "{}"'.format(self.event_name))
         json_params = json.dumps({
             "title": self.event_name,
             "event_type_id": self.event_type,
@@ -49,6 +53,7 @@ class Event():
             async with session.post(config.API_URL, params=params) as resp:
                 r_json = await resp.json()
                 self.event_id = r_json['id']
+        logger.debug('finish create event "{}"'.format(self.event_name))
 
 
 class Contact():
@@ -80,6 +85,9 @@ class Participant():
         requests.post(url=config.API_URL, params=params)
 
     async def create_with_api_async(self):
+        logger.debug('start create participant "{contact} {event}"'.format(
+            contact=self.contact.contact_name,
+            event=self.event.event_name))
         json_params = json.dumps({
             "event_id": self.event.event_id,
             "contact_id": self.contact.contact_id,
@@ -96,3 +104,6 @@ class Participant():
         async with aiohttp.ClientSession() as session:
             async with session.post(config.API_URL, params=params) as resp:
                 await resp.json()
+        logger.debug('finish create participant "{contact} {event}"'.format(
+            contact=self.contact.contact_name,
+            event=self.event.event_name))
