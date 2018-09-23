@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+import aiohttp
 import requests
 
 import config
@@ -30,6 +31,25 @@ class Event():
         r = requests.post(url=config.API_URL, params=params)
         self.event_id = r.json()['id']
 
+    async def create_with_api_async(self):
+        json_params = json.dumps({
+            "title": self.event_name,
+            "event_type_id": self.event_type,
+            "start_date": self.event_start.strftime("%Y-%m-%d %H:%M:%S")
+        })
+
+        params = {
+            "key": config.KEY,
+            "api_key": config.API_KEY,
+            "json": json_params,
+            "entity": "Event",
+            "action": "create"
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(config.API_URL, params=params) as resp:
+                r_json = await resp.json()
+                self.event_id = r_json['id']
+
 
 class Contact():
     def __init__(self, contact_name, contact_id):
@@ -58,3 +78,21 @@ class Participant():
             "action": "create"
         }
         requests.post(url=config.API_URL, params=params)
+
+    async def create_with_api_async(self):
+        json_params = json.dumps({
+            "event_id": self.event.event_id,
+            "contact_id": self.contact.contact_id,
+            "status_id": self.participant_status
+        })
+
+        params = {
+            "key": config.KEY,
+            "api_key": config.API_KEY,
+            "json": json_params,
+            "entity": "Participant",
+            "action": "create"
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(config.API_URL, params=params) as resp:
+                await resp.json()

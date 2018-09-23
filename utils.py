@@ -1,12 +1,14 @@
+import asyncio
 import csv
+import json
 
-import requests
+import aiohttp
 
 import config
 from models import Event, Participant, Contact
 
 
-def get_events_from_csv(path):
+async def get_events_from_csv(path):
     events = dict()
     with open(path) as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=',')
@@ -19,33 +21,46 @@ def get_events_from_csv(path):
                     start_time=row[3]
                 )
                 events[row[0]] = event
-                event.create_with_api()
+        futures = [e.create_with_api_async() for e in events.values()]
+        done, _ = await asyncio.wait(futures)
         return events
 
 
-def get_contacts_from_api():
-    r = requests.get(config.CONTACTS_URL)
-    result = r.json()['values']
+async def get_contacts_from_api():
+    json_params = json.dumps({
+        "sequential": 1
+    })
+    params = {
+        "key": config.KEY,
+        "api_key": config.API_KEY,
+        "json": json_params,
+        "entity": "Contact",
+        "action": "get"
+    }
     contacts = dict()
-    for contact in result:
-        contacts[contact['display_name']] = Contact(
-            contact_name=contact['display_name'],
-            contact_id=contact['contact_id'])
+    async with aiohttp.ClientSession() as session:
+        async with session.post(config.API_URL, params=params) as resp:
+            r_json = await resp.json()
+            result = r_json['values']
+            for contact in result:
+                contacts[contact['display_name']] = Contact(
+                    contact_name=contact['display_name'],
+                    contact_id=contact['contact_id'])
+            return contacts
 
-    return contacts
 
-
-def get_participants_from_csv(path, events, contacts):
+async def get_participants_from_csv(path, events, contacts):
     participants = []
     with open(path) as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=',')
         for row_num, row in enumerate(csv_reader):
             if (row_num) > 0:
                 participant = Participant(
-                        event=events[row[0]] if row[0] in events else None,
-                        contact=contacts[row[1]] if row[1] in contacts else None,
-                        participant_status=row[2]
-                    )
+                    event=events[row[0]] if row[0] in events else None,
+                    contact=contacts[row[1]] if row[1] in contacts else None,
+                    participant_status=row[2]
+                )
                 participants.append(participant)
-                participant.create_with_api()
+        futures = [p.create_with_api_async() for p in participants]
+        done, _ = await asyncio.wait(futures)
         return participants
