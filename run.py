@@ -22,7 +22,7 @@ participants_path = config.LOADED_PATH + config.PARTICIPANTS_PATH
 async def main():
     '''
     read csv with events and participants data
-    than create events and participants in the main system with API
+    then create events and participants in the main system with API
     '''
     events = dict()
     for path in os.listdir(events_path):  # get all files with Events
