@@ -4,18 +4,18 @@ This is from csv to CiviCRM data loader (events and participants). It uses aioht
 
 ## Howto
 
-- Create virtual environment 
+1. Create virtual environment 
 
 ```
 virtualenv -p python3.6 venv
 source venv/bin/activate
 ```
-- Install requirements
+2. Install requirements
 
 ```
 pip install -r requirements.txt
 ```
-- Run
+3. Run
 
 ```
 python run.py
