@@ -7,4 +7,7 @@ API_URL = 'https://di-task.ccuptest.co.uk/sites/all/modules/contrib/civicrm/exte
 API_KEY = 'T9UUSaAr3VKXbcM4'
 KEY = '73ec12d10fef12d00b333b152fe3a031'
 
-DEBUG = False
+DEBUG = True
+
+VALID_STATUSES = ["Attended", "Registered", "No-show", "Cancelled", "Pending from pay later",
+                  "Pending from incomplete transaction", "Expired", "Partially paid", "Pending refund", "Transferred"]

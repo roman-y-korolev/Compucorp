@@ -1,7 +1,7 @@
 Event name,Contact name,Status
 A new event 6,Default Organization,Attended
-A new event 1,Laree Roberts-Dimitrov1,Registered
-A new event 1,Damaris Wilson,Registered
+A new event 1,Laree Roberts-Dimitrov1,Did not attend
+A new event 1,Damaris Wilson,Did not attend
 A new event 1,Texas Technology Alliance,Attended
 A new event 1,Dimitrov family,Attended
 A new event 2,Ms. Heidi Nielsen,Attended
@@ -10,12 +10,12 @@ A new event 2,Dr. Omar Grant,Attended
 A new event 2,Dr. Jerome Deforest-Patel III,Attended
 A new event 2,Creative Culture Center,Attended
 A new event 3,Díaz family,Attended
-A new event 3,Herminia Barkley,Registered
-A new event 3,Roberts family,Registered
-A new event 3,Mrs. Alexia Nielsen,Registered
-A new event 4,Dr. Kathlyn Nielsen,Registered
-A new event 5,Wilson-Terrell family,Registered
-A new event 5,Allen Zope III,Registered
+A new event 3,Herminia Barkley,Did not attend
+A new event 3,Roberts family,Did not attend
+A new event 3,Mrs. Alexia Nielsen,Did not attend
+A new event 4,Dr. Kathlyn Nielsen,Did not attend
+A new event 5,Wilson-Terrell family,Did not attend
+A new event 5,Allen Zope III,Did not attend
 A new event 5,Zope-Yadav family,Attended
 A new event 5,Brzęczysław Olsen,Attended
 A new event 5,Troy Blackwell Jr.,Attended

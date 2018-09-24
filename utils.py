@@ -100,7 +100,7 @@ def get_participants_from_csv(path, events, contacts):
                     participant = Participant(
                         event=events[row[0]],
                         contact=contacts[row[1]],
-                        participant_status=row[2]
+                        participant_status=row[2] if row[2] in config.VALID_STATUSES else 'Registered'
                     )
                     participants.append(participant)
                 else:
