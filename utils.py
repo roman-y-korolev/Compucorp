@@ -102,12 +102,12 @@ def get_participants_from_csv(path, events, contacts):
                         contact=contacts[row[1]],
                         participant_status=row[2]
                     )
+                    participants.append(participant)
                 else:
                     if row[0] not in events:
                         logger.warning('Participant did not created. Event name "{}" is wrong')
                     if row[1] not in contacts:
                         logger.warning('Participant did not created. Contact name "{}" is wrong')
-                participants.append(participant)
         return participants
 
 
