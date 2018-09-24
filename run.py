@@ -39,11 +39,13 @@ async def main():
 
     await utils.create_participants_in_the_system(partcipants)
 
-    for path in os.listdir(events_path):
-        os.rename(events_path + path, config.PROCESSED_PATH + config.EVENTS_PATH + path)
+    # move files to processed dir
+    if not config.DEBUG:
+        for path in os.listdir(events_path):
+            os.rename(events_path + path, config.PROCESSED_PATH + config.EVENTS_PATH + path)
 
-    for path in os.listdir(participants_path):
-        os.rename(participants_path + path, config.PROCESSED_PATH + config.PARTICIPANTS_PATH + path)
+        for path in os.listdir(participants_path):
+            os.rename(participants_path + path, config.PROCESSED_PATH + config.PARTICIPANTS_PATH + path)
 
 
 ioloop = asyncio.get_event_loop()

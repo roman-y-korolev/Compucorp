@@ -17,7 +17,13 @@ class Event():
         self.event_id = None
 
     async def create_with_api(self):
-        logger.debug('start create event "{}"'.format(self.event_name))
+        '''
+        Creating event in the CiviCRM system with API
+        async method uses aiohttp
+        :return: None
+        :rtype: None
+        '''
+        logger.info('Start create event "{}"'.format(self.event_name))
         json_params = json.dumps({
             "title": self.event_name,
             "event_type_id": self.event_type,
@@ -35,13 +41,7 @@ class Event():
             async with session.post(config.API_URL, params=params) as resp:
                 r_json = await resp.json()
                 self.event_id = r_json['id']
-        logger.debug('finish create event "{}"'.format(self.event_name))
-
-
-class Contact():
-    def __init__(self, contact_name, contact_id):
-        self.contact_name = contact_name
-        self.contact_id = contact_id
+        logger.info('Finish create event "{}"'.format(self.event_name))
 
 
 class Participant():
@@ -51,7 +51,13 @@ class Participant():
         self.participant_status = participant_status
 
     async def create_with_api(self):
-        logger.debug('start create participant "{contact} {event}"'.format(
+        '''
+        Creating participant in the CiviCRM system with API
+        async method uses aiohttp
+        :return: None
+        :rtype: None
+        '''
+        logger.info('Start create participant "{contact} {event}"'.format(
             contact=self.contact.contact_name,
             event=self.event.event_name))
         json_params = json.dumps({
@@ -70,6 +76,12 @@ class Participant():
         async with aiohttp.ClientSession() as session:
             async with session.post(config.API_URL, params=params) as resp:
                 await resp.json()
-        logger.debug('finish create participant "{contact} {event}"'.format(
+        logger.info('Finish create participant "{contact} {event}"'.format(
             contact=self.contact.contact_name,
             event=self.event.event_name))
+
+
+class Contact():
+    def __init__(self, contact_name, contact_id):
+        self.contact_name = contact_name
+        self.contact_id = contact_id
