@@ -1,11 +1,10 @@
 import asyncio
+import logging
 import os
 import sys
-import logging
 
 import config
 import utils
-
 
 logger = logging.getLogger()
 

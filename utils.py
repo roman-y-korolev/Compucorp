@@ -23,8 +23,9 @@ def get_events_from_csv(path):
                 events[row[0]] = event
         return events
 
+
 async def create_events_in_the_system(events):
-    futures = [e.create_with_api_async() for e in events.values()]
+    futures = [e.create_with_api() for e in events.values()]
     await asyncio.wait(futures)
 
 
@@ -65,6 +66,7 @@ def get_participants_from_csv(path, events, contacts):
                 participants.append(participant)
         return participants
 
+
 async def create_participants_in_the_system(participants):
-    futures = [p.create_with_api_async() for p in participants]
+    futures = [p.create_with_api() for p in participants]
     done, _ = await asyncio.wait(futures)
